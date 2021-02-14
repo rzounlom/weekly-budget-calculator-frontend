@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   LoginContainer,
   LoiginFormContainer,
@@ -11,20 +10,6 @@ import {
 import LoginForm from "../components/LoginForm";
 
 const LoginScreen = () => {
-  const [login, setLogin] = useState({
-    username: "",
-    password: "",
-  });
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setLogin({ ...login, [name]: value });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  };
-
   return (
     <LoginContainer>
       <LoiginFormContainer>

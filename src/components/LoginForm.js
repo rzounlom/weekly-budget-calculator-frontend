@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { login, logout, isLoggedIn } from "../utils/auth";
+import { withRouter } from "react-router-dom";
 
-const LoginForm = () => {
+const LoginForm = ({ history }) => {
   const [form] = Form.useForm();
   const [, forceUpdate] = useState({}); // To disable submit button at the beginning.
 
@@ -10,8 +12,16 @@ const LoginForm = () => {
     forceUpdate({});
   }, []);
 
-  const onFinish = (values) => {
-    console.log("Finish:", values);
+  const onFinish = async (values) => {
+    const { username, password } = values;
+    console.log(`username: ${username}`);
+    console.log(`password: ${password}`);
+
+    await login(username, password);
+    console.log(isLoggedIn());
+    if (isLoggedIn()) {
+      history.push("/home");
+    }
   };
 
   return (
@@ -75,4 +85,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default withRouter(LoginForm);
