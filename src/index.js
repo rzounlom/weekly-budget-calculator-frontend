@@ -6,9 +6,10 @@ import "antd/dist/antd.css";
 import reportWebVitals from "./reportWebVitals";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./graphql/client";
+import { store } from "./redux/store/store";
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
+  <ApolloProvider client={client} store={store}>
     <App />
   </ApolloProvider>,
   document.getElementById("root")

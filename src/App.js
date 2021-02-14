@@ -15,14 +15,11 @@ const App = () => {
     const checkIsLoggedIn = async () => {
       const checkLogin = await isLoggedIn();
       setLoggedin(checkLogin);
-      console.log(loggedIn);
     };
+
     checkIsLoggedIn();
   }, [loggedIn]);
 
-  const handleLoginScreen = () => {
-    return loggedIn ? <HomeScreen /> : <LoginScreen />;
-  };
   return (
     <Router>
       <Switch>
