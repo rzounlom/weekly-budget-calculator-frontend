@@ -1,87 +1,101 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { login, logout, isLoggedIn } from "../utils/auth";
+import { Button } from "rsuite";
+import { login, isLoggedIn } from "../utils/auth";
 import { withRouter } from "react-router-dom";
+import {
+  LoginFormInputsContainer,
+  UsernameInput,
+  PasswordInput,
+} from "./LoginComponents";
 
 const LoginForm = ({ history }) => {
-  const [form] = Form.useForm();
   const [, forceUpdate] = useState({}); // To disable submit button at the beginning.
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loginInputs, setLoginInputs] = useState({
+    username: "",
+    password: "",
+  });
 
-  useEffect(() => {
-    forceUpdate({});
-  }, []);
+  useEffect(() => {}, [loggedIn, history]);
 
-  const onFinish = async (values) => {
-    const { username, password } = values;
-    console.log(`username: ${username}`);
-    console.log(`password: ${password}`);
+  const handleInputChange = (event) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    setLoginInputs({ ...loginInputs, [name]: value });
+    console.log(loginInputs);
+  };
 
-    await login(username, password);
-    console.log(isLoggedIn());
-    if (isLoggedIn()) {
-      history.push("/home");
+  const removeErrorMessage = () => {
+    setTimeout(() => {
+      setErrorMessage("");
+    }, 5000);
+  };
+
+  const handleSubmit = async (event) => {
+    const { username, password } = loginInputs;
+    event.preventDefault();
+    console.log(loginInputs);
+    try {
+      await login(username, password);
+      const userLoggedIn = await isLoggedIn();
+      console.log(userLoggedIn);
+      if (userLoggedIn) {
+        window.location.replace("/home");
+      } else {
+        setErrorMessage("Invalid Credentials");
+        setLoginInputs({
+          username: "",
+          password: "",
+        });
+        removeErrorMessage();
+      }
+    } catch (err) {
+      if (err) {
+        console.log(err);
+      }
     }
   };
 
+  useEffect(() => {}, [history]);
+
   return (
-    <Form
-      form={form}
-      name="horizontal_login"
-      onFinish={onFinish}
-      style={{
-        height: "30%",
-        width: "55%",
-        borderRadius: "10px",
-      }}
-    >
-      <Form.Item
+    <LoginFormInputsContainer>
+      <UsernameInput
         name="username"
-        rules={[
-          {
-            required: true,
-            message: "Please input your username!",
-          },
-        ]}
-      >
-        <Input
-          style={{ height: "45px" }}
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Username"
-        />
-      </Form.Item>
-      <Form.Item
+        type="text"
+        placeholder="Username"
+        value={loginInputs.username}
+        onChange={handleInputChange}
+      />
+      <PasswordInput
         name="password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
+        type="password"
+        placeholder="Password"
+        value={loginInputs.password}
+        onChange={handleInputChange}
+      />
+
+      <Button
+        appearance="default"
+        color="cyan"
+        onClick={handleSubmit}
+        disabled={
+          loginInputs.username.length === 0 || loginInputs.password.length === 0
+        }
       >
-        <Input
-          style={{ height: "45px" }}
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
-        />
-      </Form.Item>
-      <Form.Item shouldUpdate={true}>
-        {() => (
-          <Button
-            type="primary"
-            htmlType="submit"
-            disabled={
-              !form.isFieldsTouched(true) ||
-              !!form.getFieldsError().filter(({ errors }) => errors.length)
-                .length
-            }
-          >
-            Log in
-          </Button>
-        )}
-      </Form.Item>
-    </Form>
+        Login
+      </Button>
+      <div
+        style={{
+          width: "100%",
+          textAlign: "center",
+          height: "5%",
+        }}
+      >
+        <h5 style={{ color: "red" }}>{errorMessage}</h5>
+      </div>
+    </LoginFormInputsContainer>
   );
 };
 
