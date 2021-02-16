@@ -62,6 +62,22 @@ export const HomeScreenMainSideNav = styled.div`
   }
 `;
 
+export const HomeScreenMainSideNavToggle = styled.div`
+  height: 100%;
+  width: 100%;
+  border-right: 0.5px solid lightgrey;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 10px 0 5px -2px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  /* @media (max-width: 768px) {
+    width: 20%;
+  }
+  @media (max-width: 414px) {
+    display: none;
+  } */
+`;
+
 export const HomeScreenMainSideNavTabs = styled.div`
   height: 60px;
   width: 100%;

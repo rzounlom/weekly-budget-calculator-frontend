@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/HomeScreen/styles.scss";
-import { Button } from "rsuite";
+import { Icon } from "rsuite";
 import {
   HomeScreenContainer,
   HomeScreenNav,
@@ -15,12 +15,16 @@ import {
   HomeScreenMainContentHeaderBtn,
   HomeScreenMainContentGrid,
 } from "../components/HomeScreenComponents/HomeScreenComponents";
+import NavToggle from "../components/HomeScreenComponents/NavToggle";
 
 const HomeScreen = () => {
   return (
     <HomeScreenContainer>
       <HomeScreenNav>
         <HomeScreenNavLeft>
+          <div className="nav-toggle">
+            <NavToggle />
+          </div>
           <div className="navbar-text username">rzounlome</div>
         </HomeScreenNavLeft>
         <HomeScreenNavRight>
