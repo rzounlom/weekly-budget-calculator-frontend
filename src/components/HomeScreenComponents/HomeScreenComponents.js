@@ -48,7 +48,7 @@ export const HomeScreenMainSection = styled.div`
 
 export const HomeScreenMainSideNav = styled.div`
   height: 100%;
-  width: 10%;
+  width: 15%;
   border-right: 0.5px solid lightgrey;
   background-color: white;
   display: flex;
@@ -62,7 +62,7 @@ export const HomeScreenMainSideNav = styled.div`
 `;
 
 export const HomeScreenMainSideNavTabs = styled.div`
-  height: 50px;
+  height: 60px;
   width: 100%;
   border-bottom: 0.5px solid lightgrey;
   display: flex;
