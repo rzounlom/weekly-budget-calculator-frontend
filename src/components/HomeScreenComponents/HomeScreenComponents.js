@@ -53,6 +53,7 @@ export const HomeScreenMainSideNav = styled.div`
   background-color: white;
   display: flex;
   flex-direction: column;
+  box-shadow: 10px 0 5px -2px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   @media (max-width: 768px) {
     width: 20%;
   }
