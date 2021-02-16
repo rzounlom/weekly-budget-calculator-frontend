@@ -73,3 +73,78 @@ export const HomeScreenMainSideNavTabs = styled.div`
   font-size: 1.1rem;
   cursor: pointer;
 `;
+
+export const HomeScreenMainContentContainer = styled.div`
+  height: 100%;
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @media (max-width: 768px) {
+    width: 80%;
+  }
+  @media (max-width: 414px) {
+    width: 100%;
+  }
+`;
+
+export const HomeScreenMainContentHeader = styled.div`
+  height: 10%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const HomeScreenMainContentHeaderBtnContainer = styled.div`
+  height: 100%;
+  width: 55%;
+  padding: 2%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @media (max-width: 768px) {
+    width: 80%;
+  }
+  @media (max-width: 414px) {
+    width: 95%;
+  }
+  @media (max-width: 375px) {
+    width: 95%;
+  }
+`;
+
+export const HomeScreenMainContentHeaderBtn = styled.div`
+  height: 50px;
+  width: 35%;
+  padding: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid aqua;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  @media (max-width: 768px) {
+    width: 44%;
+    margin-top: 5%;
+  }
+  @media (max-width: 414px) {
+    width: 45%;
+    margin-top: 5%;
+  }
+  @media (max-width: 380px) {
+    width: 46%;
+    margin-top: 5%;
+  }
+  @media (max-width: 350px) {
+    margin-top: 12%;
+  }
+`;
+
+export const HomeScreenMainContentGrid = styled.div`
+  height: 92%;
+  width: 100%;
+  display: flex;
+  padding: 2%;
+`;

@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/HomeScreen/styles.scss";
+import { Button } from "rsuite";
 import {
   HomeScreenContainer,
   HomeScreenNav,
@@ -8,6 +9,11 @@ import {
   HomeScreenMainSection,
   HomeScreenMainSideNav,
   HomeScreenMainSideNavTabs,
+  HomeScreenMainContentContainer,
+  HomeScreenMainContentHeader,
+  HomeScreenMainContentHeaderBtnContainer,
+  HomeScreenMainContentHeaderBtn,
+  HomeScreenMainContentGrid,
 } from "../components/HomeScreenComponents/HomeScreenComponents";
 
 const HomeScreen = () => {
@@ -45,6 +51,19 @@ const HomeScreen = () => {
             Sunday
           </HomeScreenMainSideNavTabs>
         </HomeScreenMainSideNav>
+        <HomeScreenMainContentContainer>
+          <HomeScreenMainContentHeader>
+            <HomeScreenMainContentHeaderBtnContainer>
+              <HomeScreenMainContentHeaderBtn className="grid-btn">
+                Add Employee
+              </HomeScreenMainContentHeaderBtn>
+              <HomeScreenMainContentHeaderBtn className="grid-btn">
+                Clear Day
+              </HomeScreenMainContentHeaderBtn>
+            </HomeScreenMainContentHeaderBtnContainer>
+          </HomeScreenMainContentHeader>
+          <HomeScreenMainContentGrid></HomeScreenMainContentGrid>
+        </HomeScreenMainContentContainer>
       </HomeScreenMainSection>
     </HomeScreenContainer>
   );

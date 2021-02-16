@@ -1,10 +1,12 @@
 .navbar-text {
   font-size: 1.2rem;
-  font-weight: 400;
+  font-weight: 700;
+  color: aqua;
 
   &.logout {
+    color: black;
     &:hover {
-      background-color: aqua;
+      color: aqua;
       cursor: pointer;
       transition: all 0.3s ease-in-out;
     }
@@ -15,6 +17,17 @@
   &:hover {
     color: white;
     background-color: aqua;
+    transition: all 0.4s ease-in-out;
+  }
+}
+
+.grid-btn {
+  color: aqua;
+  cursor: pointer;
+
+  &:hover {
+    background-color: aqua;
+    color: white;
     transition: all 0.4s ease-in-out;
   }
 }
