@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "rsuite";
-import { login, isLoggedIn } from "../utils/auth";
+import { login, isLoggedIn } from "../../utils/auth";
 import { withRouter } from "react-router-dom";
 import {
   LoginFormInputsContainer,
@@ -56,8 +56,6 @@ const LoginForm = ({ history }) => {
       }
     }
   };
-
-  useEffect(() => {}, [history]);
 
   return (
     <LoginFormInputsContainer>

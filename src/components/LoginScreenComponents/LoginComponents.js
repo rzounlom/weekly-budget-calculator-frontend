@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import formImg from "../assets/HomeScreen/formImage.jpg";
+import formImg from "../../assets/HomeScreen/formImage.jpg";
 
 export const LoginContainer = styled.div`
   height: 100vh;

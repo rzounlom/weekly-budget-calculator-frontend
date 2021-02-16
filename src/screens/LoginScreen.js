@@ -6,8 +6,8 @@ import {
   FormSectionLeftTitle,
   FormSectionRightTitle,
   FormSectionRightTitle2,
-} from "../components/LoginComponents";
-import LoginForm from "../components/LoginForm";
+} from "../components/LoginScreenComponents/LoginComponents";
+import LoginForm from "../components/LoginScreenComponents/LoginForm";
 
 const LoginScreen = () => {
   return (

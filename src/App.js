@@ -23,13 +23,7 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route
-          exact
-          path="/"
-          render={() => {
-            return loggedIn ? <HomeScreen /> : <LoginScreen />;
-          }}
-        />
+        <Route exact path="/" component={LoginScreen} />
         <Route
           exact
           path="/login"
