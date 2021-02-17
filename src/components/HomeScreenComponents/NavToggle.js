@@ -41,19 +41,34 @@ class NavToggle extends React.Component {
           <Drawer.Header></Drawer.Header>
           <Drawer.Body>
             <HomeScreenMainSideNavToggle>
-              <HomeScreenMainSideNavTabs className="side-nav-tab-toggle">
+              <HomeScreenMainSideNavTabs
+                className="side-nav-tab-toggle"
+                onClick={this.close}
+              >
                 Monday
               </HomeScreenMainSideNavTabs>
-              <HomeScreenMainSideNavTabs className="side-nav-tab-toggle">
+              <HomeScreenMainSideNavTabs
+                className="side-nav-tab-toggle"
+                onClick={this.close}
+              >
                 Tuesday
               </HomeScreenMainSideNavTabs>
-              <HomeScreenMainSideNavTabs className="side-nav-tab-toggle">
+              <HomeScreenMainSideNavTabs
+                className="side-nav-tab-toggle"
+                onClick={this.close}
+              >
                 Wednesday
               </HomeScreenMainSideNavTabs>
-              <HomeScreenMainSideNavTabs className="side-nav-tab-toggle">
+              <HomeScreenMainSideNavTabs
+                className="side-nav-tab-toggle"
+                onClick={this.close}
+              >
                 Thursday
               </HomeScreenMainSideNavTabs>
-              <HomeScreenMainSideNavTabs className="side-nav-tab-toggle">
+              <HomeScreenMainSideNavTabs
+                className="side-nav-tab-toggle"
+                onClick={this.close}
+              >
                 Friday
               </HomeScreenMainSideNavTabs>
               <HomeScreenMainSideNavTabs className="side-nav-tab-toggle">

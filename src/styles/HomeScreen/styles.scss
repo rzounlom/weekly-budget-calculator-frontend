@@ -56,3 +56,29 @@
 .side-nav-tab-toggle {
   width: 100%;
 }
+
+.rs-drawer-body {
+  margin: 0;
+}
+
+.card-footer-btn {
+  &.edit {
+    border: 1px solid aqua;
+    color: aqua;
+
+    &:hover {
+      background-color: aqua;
+      color: white;
+    }
+  }
+
+  &.delete {
+    border: 1px solid red;
+    color: red;
+
+    &:hover {
+      background-color: red;
+      color: white;
+    }
+  }
+}

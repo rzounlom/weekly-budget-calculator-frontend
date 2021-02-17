@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/HomeScreen/styles.scss";
-import { Icon } from "rsuite";
+import ShiftCard from "../components/HomeScreenComponents/ShiftCard";
 import {
   HomeScreenContainer,
   HomeScreenNav,
@@ -13,7 +13,8 @@ import {
   HomeScreenMainContentHeader,
   HomeScreenMainContentHeaderBtnContainer,
   HomeScreenMainContentHeaderBtn,
-  HomeScreenMainContentGrid,
+  HomeScreenMainContentGridContainer,
+  HomeScreenMainContentGridCardContainer,
 } from "../components/HomeScreenComponents/HomeScreenComponents";
 import NavToggle from "../components/HomeScreenComponents/NavToggle";
 
@@ -66,7 +67,18 @@ const HomeScreen = () => {
               </HomeScreenMainContentHeaderBtn>
             </HomeScreenMainContentHeaderBtnContainer>
           </HomeScreenMainContentHeader>
-          <HomeScreenMainContentGrid></HomeScreenMainContentGrid>
+          <HomeScreenMainContentGridContainer>
+            <HomeScreenMainContentGridCardContainer>
+              <ShiftCard />
+              <ShiftCard />
+              <ShiftCard />
+              <ShiftCard />
+              <ShiftCard />
+              <ShiftCard />
+              <ShiftCard />
+              <ShiftCard />
+            </HomeScreenMainContentGridCardContainer>
+          </HomeScreenMainContentGridContainer>
         </HomeScreenMainContentContainer>
       </HomeScreenMainSection>
     </HomeScreenContainer>
