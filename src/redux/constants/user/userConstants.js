@@ -1,0 +1,9 @@
+// login user constants
+export const LOGIN_USER_REQUEST = "LOGIN_USER_REQUEST";
+export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
+export const LOGIN_USER_FAIL = "LOGIN_USER_FAIL";
+
+//retrieve token from localStorage
+export const RETRIEVE_TOKEN_REQUEST = "RETRIEVE_TOKEN_REQUEST";
+export const RETRIEVE_TOKEN_SUCCESS = "RETRIEVE_TOKEN_SUCCESS";
+export const RETRIEVE_TOKEN_FAIL = "RETRIEVE_TOKEN_FAIL";

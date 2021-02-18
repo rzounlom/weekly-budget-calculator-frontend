@@ -8,10 +8,16 @@ import reportWebVitals from "./reportWebVitals";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./graphql/client";
 import { store } from "./redux/store/store";
+import { Provider } from "react-redux";
 
 ReactDOM.render(
-  <ApolloProvider client={client} store={store}>
-    <App />
+  // <Provider store={store}>
+  //   <App />
+  // </Provider>,
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+      <App />
+    </Provider>
   </ApolloProvider>,
   document.getElementById("root")
 );

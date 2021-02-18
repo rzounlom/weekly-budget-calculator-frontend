@@ -23,6 +23,7 @@ export const login = async (username, password) => {
     } = await axios.post("http://localhost:5000/login", body, headers);
     console.log(token);
     localStorage.setItem(accessTokenKey, token);
+    return token;
   } catch (err) {
     console.log(err);
   }

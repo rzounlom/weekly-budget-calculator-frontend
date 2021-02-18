@@ -1,29 +1,33 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Button } from "rsuite";
-import { login, isLoggedIn } from "../../utils/auth";
-import { withRouter } from "react-router-dom";
+import { isLoggedIn } from "../../utils/auth";
+import {
+  withRouter,
+  Route,
+  Redirect,
+  BrowserRouter as Router,
+} from "react-router-dom";
 import {
   LoginFormInputsContainer,
   UsernameInput,
   PasswordInput,
 } from "./LoginComponents";
+import { loginUserAction } from "../../redux/actions/user/userActions";
 
 const LoginForm = ({ history }) => {
-  const [, forceUpdate] = useState({}); // To disable submit button at the beginning.
-  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {}, [loginUserAction]);
+  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const [loginInputs, setLoginInputs] = useState({
     username: "",
     password: "",
   });
 
-  useEffect(() => {}, [loggedIn, history]);
-
   const handleInputChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
     setLoginInputs({ ...loginInputs, [name]: value });
-    console.log(loginInputs);
   };
 
   const removeErrorMessage = () => {
@@ -37,7 +41,8 @@ const LoginForm = ({ history }) => {
     event.preventDefault();
     console.log(loginInputs);
     try {
-      await login(username, password);
+      // await login(username, password);
+      await dispatch(loginUserAction(loginInputs));
       const userLoggedIn = await isLoggedIn();
       console.log(userLoggedIn);
       if (userLoggedIn) {
