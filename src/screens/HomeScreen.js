@@ -26,6 +26,7 @@ import {
 
 const HomeScreen = () => {
   const id = useSelector((state) => state.user.userId);
+  const user = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
   const [active, setActive] = useState({
     monday: true,
@@ -38,16 +39,11 @@ const HomeScreen = () => {
   });
 
   useEffect(() => {
-    const getUserDetails = async (empoyeeId) => {
-      await dispatch(retrieveUserToken());
-      await dispatch(retrieveUserDetails(empoyeeId));
-    };
-
-    getUserDetails(id);
+    dispatch(retrieveUserToken());
+    if (id) {
+      dispatch(retrieveUserDetails(id));
+    }
   }, [dispatch, id]);
-
-  const user = useSelector((state) => state.user.userDetails);
-  console.log(user);
 
   return (
     <HomeScreenContainer>
