@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../styles/HomeScreen/styles.scss";
 import ShiftCard from "../components/HomeScreenComponents/ShiftCard";
 import {
@@ -19,9 +19,13 @@ import {
 } from "../components/HomeScreenComponents/HomeScreenComponents";
 import NavToggle from "../components/HomeScreenComponents/NavToggle";
 import { toggleDayActive } from "../utils/toggleDayActive";
-import { retrieveUserToken } from "../redux/actions/user/userActions";
+import {
+  retrieveUserToken,
+  retrieveUserDetails,
+} from "../redux/actions/user/userActions";
 
 const HomeScreen = () => {
+  const id = useSelector((state) => state.user.userId);
   const dispatch = useDispatch();
   const [active, setActive] = useState({
     monday: true,
@@ -34,8 +38,16 @@ const HomeScreen = () => {
   });
 
   useEffect(() => {
-    dispatch(retrieveUserToken());
-  }, [dispatch]);
+    const getUserDetails = async (empoyeeId) => {
+      await dispatch(retrieveUserToken());
+      await dispatch(retrieveUserDetails(empoyeeId));
+    };
+
+    getUserDetails(id);
+  }, [dispatch, id]);
+
+  const user = useSelector((state) => state.user.userDetails);
+  console.log(user);
 
   return (
     <HomeScreenContainer>

@@ -5,9 +5,14 @@ import {
   RETRIEVE_TOKEN_REQUEST,
   RETRIEVE_TOKEN_SUCCESS,
   RETRIEVE_TOKEN_FAIL,
+  RETRIEVE_USER_DETAILS_REQUEST,
+  RETRIEVE_USER_DETAILS_SUCCESS,
+  RETRIEVE_USER_DETAILS_FAIL,
 } from "../../constants/user/userConstants";
 import { login } from "../../../utils/auth";
 import { getAccessToken } from "../../../utils/auth";
+import { client } from "../../../graphql/client";
+import { FIND_USER_BY_ID } from "../../../graphql/Queries/user/userQueries";
 
 export const createUser = (data) => async (dispatch) => {
   return dispatch({
@@ -27,7 +32,6 @@ export const loginUserAction = (data) => async (dispatch) => {
 
     if (token) {
       await dispatch({ type: LOGIN_USER_SUCCESS, payload: token });
-      console.log(token);
     } else {
       await dispatch({
         type: LOGIN_USER_FAIL,
@@ -54,7 +58,6 @@ export const retrieveUserToken = () => async (dispatch) => {
 
     if (token) {
       await dispatch({ type: RETRIEVE_TOKEN_SUCCESS, payload: token });
-      console.log(token);
     } else {
       await dispatch({
         type: RETRIEVE_TOKEN_FAIL,
@@ -65,6 +68,43 @@ export const retrieveUserToken = () => async (dispatch) => {
     if (err) {
       await dispatch({
         type: LOGIN_USER_FAIL,
+        payload: { err },
+      });
+    }
+  }
+};
+
+export const retrieveUserDetails = (id) => async (dispatch) => {
+  const findUser = async (empId) => {
+    try {
+      console.log(empId);
+      const data = await client.query({
+        query: FIND_USER_BY_ID,
+        variables: { id },
+      });
+      console.log(data);
+      return data;
+    } catch (err) {
+      if (err) {
+        console.log(err);
+      }
+    }
+  };
+  try {
+    await dispatch({
+      type: RETRIEVE_USER_DETAILS_REQUEST,
+    });
+    const {
+      data: { user },
+    } = await findUser(id);
+
+    if (user) {
+      await dispatch({ type: RETRIEVE_USER_DETAILS_SUCCESS, payload: user });
+    }
+  } catch (err) {
+    if (err) {
+      await dispatch({
+        type: RETRIEVE_USER_DETAILS_FAIL,
         payload: { err },
       });
     }
