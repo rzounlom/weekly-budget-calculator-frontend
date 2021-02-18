@@ -75,28 +75,17 @@ export const retrieveUserToken = () => async (dispatch) => {
 };
 
 export const retrieveUserDetails = (id) => async (dispatch) => {
-  const findUser = async (empId) => {
-    try {
-      console.log(empId);
-      const data = await client.query({
-        query: FIND_USER_BY_ID,
-        variables: { id },
-      });
-      console.log(data);
-      return data;
-    } catch (err) {
-      if (err) {
-        console.log(err);
-      }
-    }
-  };
   try {
     await dispatch({
       type: RETRIEVE_USER_DETAILS_REQUEST,
     });
+
     const {
       data: { user },
-    } = await findUser(id);
+    } = await client.query({
+      query: FIND_USER_BY_ID,
+      variables: { id },
+    });
 
     if (user) {
       await dispatch({ type: RETRIEVE_USER_DETAILS_SUCCESS, payload: user });
