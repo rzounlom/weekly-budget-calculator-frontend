@@ -9,6 +9,7 @@ export const toggleDayActive = (num, fun) => {
         friday: false,
         saturday: false,
         sunday: false,
+        employees: false,
       });
       break;
     case 2:
@@ -20,6 +21,7 @@ export const toggleDayActive = (num, fun) => {
         friday: false,
         saturday: false,
         sunday: false,
+        employees: false,
       });
       break;
     case 3:
@@ -31,6 +33,7 @@ export const toggleDayActive = (num, fun) => {
         friday: false,
         saturday: false,
         sunday: false,
+        employees: false,
       });
       break;
     case 4:
@@ -42,6 +45,7 @@ export const toggleDayActive = (num, fun) => {
         friday: false,
         saturday: false,
         sunday: false,
+        employees: false,
       });
       break;
     case 5:
@@ -53,6 +57,7 @@ export const toggleDayActive = (num, fun) => {
         friday: true,
         saturday: false,
         sunday: false,
+        employees: false,
       });
       break;
     case 6:
@@ -64,6 +69,7 @@ export const toggleDayActive = (num, fun) => {
         friday: false,
         saturday: true,
         sunday: false,
+        employees: false,
       });
       break;
     case 7:
@@ -75,6 +81,19 @@ export const toggleDayActive = (num, fun) => {
         friday: false,
         saturday: false,
         sunday: true,
+        employees: false,
+      });
+      break;
+    case 8:
+      fun({
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false,
+        sunday: false,
+        employees: true,
       });
       break;
     default:
@@ -86,6 +105,7 @@ export const toggleDayActive = (num, fun) => {
         friday: false,
         saturday: false,
         sunday: false,
+        employees: false,
       });
   }
 };

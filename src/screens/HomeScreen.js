@@ -36,6 +36,7 @@ const HomeScreen = () => {
     friday: false,
     saturday: false,
     sunday: false,
+    employees: false,
   });
 
   useEffect(() => {
@@ -102,6 +103,14 @@ const HomeScreen = () => {
           >
             Sunday
           </HomeScreenMainSideNavTabs>
+          {user.role === "ADMIN" && (
+            <HomeScreenMainSideNavTabs
+              className={`side-nav-tab ${active.employees ? "active" : ""}`}
+              onClick={() => toggleDayActive(8, setActive)}
+            >
+              Employees
+            </HomeScreenMainSideNavTabs>
+          )}
         </HomeScreenMainSideNav>
         <HomeScreenMainContentContainer>
           <HomeScreenMainContentHeader>
