@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../styles/HomeScreen/styles.scss";
 import ShiftCard from "../components/HomeScreenComponents/ShiftCard";
+import AddEmployeeToDayModal from "../components/HomeScreenComponents/AddEmployeeToDayModal";
+import ClearShiftsModal from "../components/HomeScreenComponents/ClearShiftsModal";
 import {
   HomeScreenContainer,
   HomeScreenNav,
@@ -40,6 +42,21 @@ const HomeScreen = () => {
     sunday: false,
     employees: false,
   });
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const [shiftModalIsOpen, setShiftModalIsOpen] = useState(false);
+  const openShiftsModal = () => {
+    setShiftModalIsOpen(true);
+  };
+  const closeShiftModal = () => {
+    setShiftModalIsOpen(false);
+  };
 
   const [shiftDay, setShiftDay] = useState("Monday");
 
@@ -64,6 +81,14 @@ const HomeScreen = () => {
 
   return (
     <HomeScreenContainer>
+      <AddEmployeeToDayModal
+        modalIsOpen={modalIsOpen}
+        closeModal={closeModal}
+      />
+      <ClearShiftsModal
+        shiftModalIsOpen={shiftModalIsOpen}
+        closeShiftModal={closeShiftModal}
+      />
       <HomeScreenNav>
         <HomeScreenNavLeft>
           <div className="nav-toggle">
@@ -155,11 +180,17 @@ const HomeScreen = () => {
         <HomeScreenMainContentContainer>
           <HomeScreenMainContentHeader>
             <HomeScreenMainContentHeaderBtnContainer>
-              <HomeScreenMainContentHeaderBtn className="grid-btn">
-                Add Employee
+              <HomeScreenMainContentHeaderBtn
+                className="grid-btn"
+                onClick={openModal}
+              >
+                Add Shift
               </HomeScreenMainContentHeaderBtn>
-              <HomeScreenMainContentHeaderBtn className="grid-btn">
-                Clear Day
+              <HomeScreenMainContentHeaderBtn
+                className="grid-btn"
+                onClick={openShiftsModal}
+              >
+                Clear Shifts
               </HomeScreenMainContentHeaderBtn>
             </HomeScreenMainContentHeaderBtnContainer>
           </HomeScreenMainContentHeader>
