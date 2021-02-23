@@ -16,6 +16,7 @@ import {
   HomeScreenMainContentHeaderBtn,
   HomeScreenMainContentGridContainer,
   HomeScreenMainContentGridCardContainer,
+  HomeScreenMainContentHeaderNoShifts,
 } from "../components/HomeScreenComponents/HomeScreenComponents";
 import NavToggle from "../components/HomeScreenComponents/NavToggle";
 import { toggleDayActive } from "../utils/toggleDayActive";
@@ -23,6 +24,7 @@ import {
   retrieveUserToken,
   retrieveUserDetails,
 } from "../redux/actions/user/userActions";
+import { getAllShifts } from "../redux/actions/shift/shiftActions";
 
 const HomeScreen = () => {
   const id = useSelector((state) => state.user.userId);
@@ -39,12 +41,26 @@ const HomeScreen = () => {
     employees: false,
   });
 
+  const [shiftDay, setShiftDay] = useState("Monday");
+
   useEffect(() => {
     dispatch(retrieveUserToken());
     if (id) {
       dispatch(retrieveUserDetails(id));
+      dispatch(getAllShifts());
+      setShiftDay("Monday");
     }
   }, [dispatch, id]);
+
+  const { shifts } = useSelector((state) => state.shift);
+
+  console.log(shifts);
+
+  const renderDayShifts = shifts
+    .filter((shift) => shift.day === shiftDay)
+    .map((shift) => (
+      <ShiftCard key={shift.employee.employeeId} shift={shift} />
+    ));
 
   return (
     <HomeScreenContainer>
@@ -63,50 +79,74 @@ const HomeScreen = () => {
         <HomeScreenMainSideNav>
           <HomeScreenMainSideNavTabs
             className={`side-nav-tab ${active.monday ? "active" : ""}`}
-            onClick={() => toggleDayActive(1, setActive)}
+            onClick={async () => {
+              toggleDayActive(1, setActive);
+              setShiftDay("Monday");
+            }}
           >
             Monday
           </HomeScreenMainSideNavTabs>
           <HomeScreenMainSideNavTabs
             className={`side-nav-tab ${active.tuesday ? "active" : ""}`}
-            onClick={() => toggleDayActive(2, setActive)}
+            onClick={async () => {
+              toggleDayActive(2, setActive);
+              setShiftDay("Tuesday");
+            }}
           >
             Tuesday
           </HomeScreenMainSideNavTabs>
           <HomeScreenMainSideNavTabs
             className={`side-nav-tab ${active.wednesday ? "active" : ""}`}
-            onClick={() => toggleDayActive(3, setActive)}
+            onClick={async () => {
+              toggleDayActive(3, setActive);
+              setShiftDay("Wednesday");
+            }}
           >
             Wednesday
           </HomeScreenMainSideNavTabs>
           <HomeScreenMainSideNavTabs
             className={`side-nav-tab ${active.thursday ? "active" : ""}`}
-            onClick={() => toggleDayActive(4, setActive)}
+            onClick={async () => {
+              toggleDayActive(4, setActive);
+              setShiftDay("Thursday");
+            }}
           >
             Thursday
           </HomeScreenMainSideNavTabs>
           <HomeScreenMainSideNavTabs
             className={`side-nav-tab ${active.friday ? "active" : ""}`}
-            onClick={() => toggleDayActive(5, setActive)}
+            onClick={async () => {
+              toggleDayActive(5, setActive);
+              setShiftDay("Friday");
+            }}
           >
             Friday
           </HomeScreenMainSideNavTabs>
           <HomeScreenMainSideNavTabs
             className={`side-nav-tab ${active.saturday ? "active" : ""}`}
-            onClick={() => toggleDayActive(6, setActive)}
+            onClick={async () => {
+              toggleDayActive(6, setActive);
+              setShiftDay("Saturday");
+            }}
           >
             Saturday
           </HomeScreenMainSideNavTabs>
           <HomeScreenMainSideNavTabs
             className={`side-nav-tab ${active.sunday ? "active" : ""}`}
-            onClick={() => toggleDayActive(7, setActive)}
+            onClick={async () => {
+              toggleDayActive(7, setActive);
+              setShiftDay("Sunday");
+            }}
           >
             Sunday
           </HomeScreenMainSideNavTabs>
-          {user.role === "ADMIN" && (
+          {user && user.role.length !== undefined && user.role === "ADMIN" && (
             <HomeScreenMainSideNavTabs
               className={`side-nav-tab ${active.employees ? "active" : ""}`}
-              onClick={() => toggleDayActive(8, setActive)}
+              onClick={async () => {
+                toggleDayActive(1, setActive);
+                setShiftDay("Monday");
+              }}
             >
               Employees
             </HomeScreenMainSideNavTabs>
@@ -125,14 +165,15 @@ const HomeScreen = () => {
           </HomeScreenMainContentHeader>
           <HomeScreenMainContentGridContainer>
             <HomeScreenMainContentGridCardContainer>
-              <ShiftCard />
-              <ShiftCard />
-              <ShiftCard />
-              <ShiftCard />
-              <ShiftCard />
-              <ShiftCard />
-              <ShiftCard />
-              <ShiftCard />
+              {renderDayShifts.length > 0 ? (
+                renderDayShifts
+              ) : (
+                <HomeScreenMainContentHeaderNoShifts>
+                  <h2>
+                    No shifts added to <span>{shiftDay}</span> yet
+                  </h2>
+                </HomeScreenMainContentHeaderNoShifts>
+              )}
             </HomeScreenMainContentGridCardContainer>
           </HomeScreenMainContentGridContainer>
         </HomeScreenMainContentContainer>

@@ -16,7 +16,6 @@ import {
 import { loginUserAction } from "../../redux/actions/user/userActions";
 
 const LoginForm = ({ history }) => {
-  useEffect(() => {}, [loginUserAction]);
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const [loginInputs, setLoginInputs] = useState({
@@ -37,9 +36,8 @@ const LoginForm = ({ history }) => {
   };
 
   const handleSubmit = async (event) => {
-    const { username, password } = loginInputs;
     event.preventDefault();
-    console.log(loginInputs);
+
     try {
       // await login(username, password);
       await dispatch(loginUserAction(loginInputs));

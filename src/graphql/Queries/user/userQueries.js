@@ -8,3 +8,12 @@ export const FIND_USER_BY_ID = gql`
     }
   }
 `;
+
+export const LOGIN_USER = gql`
+  query user($username: String!, $password: String!) {
+    user: user(username: $username, password: $password) {
+      username
+      role
+    }
+  }
+`;

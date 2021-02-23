@@ -110,6 +110,26 @@ export const HomeScreenMainContentHeader = styled.div`
   }
 `;
 
+export const HomeScreenMainContentHeaderNoShifts = styled.div`
+  height: 7vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 2px solid lightgrey;
+  h2 {
+    color: gray;
+    font-weight: 900;
+    span {
+      opacity: 1;
+      color: aqua;
+    }
+  }
+  @media (max-width: 414px) {
+    height: 15%;
+  }
+`;
+
 export const HomeScreenMainContentHeaderBtnContainer = styled.div`
   height: 100%;
   width: 55%;
