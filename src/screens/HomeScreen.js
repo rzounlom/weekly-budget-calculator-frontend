@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../styles/HomeScreen/styles.scss";
 import ShiftCard from "../components/HomeScreenComponents/ShiftCard";
+import UserCard from "../components/HomeScreenComponents/UserCard";
+import EmployeeCard from "../components/HomeScreenComponents/EmployeeCard";
 import AddEmployeeToDayModal from "../components/HomeScreenComponents/AddEmployeeToDayModal";
 import ClearShiftsModal from "../components/HomeScreenComponents/ClearShiftsModal";
 import {
@@ -27,11 +29,14 @@ import {
   retrieveUserDetails,
 } from "../redux/actions/user/userActions";
 import { getAllShifts } from "../redux/actions/shift/shiftActions";
+import { getEmployees } from "../redux/actions/employee/employeeActions";
+import { findUsers } from "../redux/actions/user/userActions";
 
 const HomeScreen = () => {
   const id = useSelector((state) => state.user.userId);
   const user = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
+  const [cardNumber, setCardNumber] = useState(1);
   const [active, setActive] = useState({
     monday: true,
     tuesday: false,
@@ -41,6 +46,7 @@ const HomeScreen = () => {
     saturday: false,
     sunday: false,
     employees: false,
+    users: false,
   });
   const [modalIsOpen, setIsOpen] = useState(false);
   const openModal = () => {
@@ -65,13 +71,16 @@ const HomeScreen = () => {
     if (id) {
       dispatch(retrieveUserDetails(id));
       dispatch(getAllShifts());
+      dispatch(getEmployees());
+      dispatch(findUsers());
       setShiftDay("Monday");
+      toggleDayActive(1, setActive);
     }
   }, [dispatch, id]);
 
   const { shifts } = useSelector((state) => state.shift);
-
-  console.log(shifts);
+  const { users } = useSelector((state) => state.user);
+  const { employees } = useSelector((state) => state.employee);
 
   const renderDayShifts = shifts
     .filter((shift) => shift.day === shiftDay)
@@ -79,6 +88,37 @@ const HomeScreen = () => {
       <ShiftCard key={shift.employee.employeeId} shift={shift} />
     ));
 
+  const renderUsers = users.map((user) => (
+    <UserCard key={user.username} user={user} />
+  ));
+
+  const renderEmployees = employees.map((employee) => (
+    <EmployeeCard key={employee.employeeId} employee={employee} />
+  ));
+
+  const renderCards = (num) => {
+    switch (num) {
+      case 1:
+        return renderDayShifts.length > 0 ? (
+          renderDayShifts
+        ) : (
+          <HomeScreenMainContentHeaderNoShifts>
+            <h2>
+              No shifts added to <span>{shiftDay}</span> yet
+            </h2>
+          </HomeScreenMainContentHeaderNoShifts>
+        );
+      case 2:
+        return renderEmployees;
+      case 3:
+        return renderUsers;
+      default:
+        break;
+    }
+  };
+
+  console.log(users);
+  console.log(employees);
   return (
     <HomeScreenContainer>
       <AddEmployeeToDayModal
@@ -107,6 +147,7 @@ const HomeScreen = () => {
             onClick={async () => {
               toggleDayActive(1, setActive);
               setShiftDay("Monday");
+              setCardNumber(1);
             }}
           >
             Monday
@@ -116,6 +157,7 @@ const HomeScreen = () => {
             onClick={async () => {
               toggleDayActive(2, setActive);
               setShiftDay("Tuesday");
+              setCardNumber(1);
             }}
           >
             Tuesday
@@ -125,6 +167,7 @@ const HomeScreen = () => {
             onClick={async () => {
               toggleDayActive(3, setActive);
               setShiftDay("Wednesday");
+              setCardNumber(1);
             }}
           >
             Wednesday
@@ -134,6 +177,7 @@ const HomeScreen = () => {
             onClick={async () => {
               toggleDayActive(4, setActive);
               setShiftDay("Thursday");
+              setCardNumber(1);
             }}
           >
             Thursday
@@ -143,6 +187,7 @@ const HomeScreen = () => {
             onClick={async () => {
               toggleDayActive(5, setActive);
               setShiftDay("Friday");
+              setCardNumber(1);
             }}
           >
             Friday
@@ -152,6 +197,7 @@ const HomeScreen = () => {
             onClick={async () => {
               toggleDayActive(6, setActive);
               setShiftDay("Saturday");
+              setCardNumber(1);
             }}
           >
             Saturday
@@ -161,21 +207,31 @@ const HomeScreen = () => {
             onClick={async () => {
               toggleDayActive(7, setActive);
               setShiftDay("Sunday");
+              setCardNumber(1);
             }}
           >
             Sunday
           </HomeScreenMainSideNavTabs>
-          {user && user.role.length !== undefined && user.role === "ADMIN" && (
-            <HomeScreenMainSideNavTabs
-              className={`side-nav-tab ${active.employees ? "active" : ""}`}
-              onClick={async () => {
-                toggleDayActive(1, setActive);
-                setShiftDay("Monday");
-              }}
-            >
-              Employees
-            </HomeScreenMainSideNavTabs>
-          )}
+          <HomeScreenMainSideNavTabs
+            className={`side-nav-tab ${active.employees ? "active" : ""}`}
+            onClick={async () => {
+              toggleDayActive(8, setActive);
+              setCardNumber(2);
+            }}
+          >
+            Employees
+          </HomeScreenMainSideNavTabs>
+          {/* {user && user.role.length !== undefined && user.role === "ADMIN" && ( */}
+          <HomeScreenMainSideNavTabs
+            className={`side-nav-tab ${active.users ? "active" : ""}`}
+            onClick={async () => {
+              toggleDayActive(9, setActive);
+              setCardNumber(3);
+            }}
+          >
+            Users
+          </HomeScreenMainSideNavTabs>
+          {/* )} */}
         </HomeScreenMainSideNav>
         <HomeScreenMainContentContainer>
           <HomeScreenMainContentHeader>
@@ -196,15 +252,7 @@ const HomeScreen = () => {
           </HomeScreenMainContentHeader>
           <HomeScreenMainContentGridContainer>
             <HomeScreenMainContentGridCardContainer>
-              {renderDayShifts.length > 0 ? (
-                renderDayShifts
-              ) : (
-                <HomeScreenMainContentHeaderNoShifts>
-                  <h2>
-                    No shifts added to <span>{shiftDay}</span> yet
-                  </h2>
-                </HomeScreenMainContentHeaderNoShifts>
-              )}
+              {renderCards(cardNumber)}
             </HomeScreenMainContentGridCardContainer>
           </HomeScreenMainContentGridContainer>
         </HomeScreenMainContentContainer>

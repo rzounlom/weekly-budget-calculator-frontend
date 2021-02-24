@@ -10,6 +10,7 @@ export const toggleDayActive = (num, fun) => {
         saturday: false,
         sunday: false,
         employees: false,
+        users: false,
       });
       break;
     case 2:
@@ -22,6 +23,7 @@ export const toggleDayActive = (num, fun) => {
         saturday: false,
         sunday: false,
         employees: false,
+        users: false,
       });
       break;
     case 3:
@@ -34,6 +36,7 @@ export const toggleDayActive = (num, fun) => {
         saturday: false,
         sunday: false,
         employees: false,
+        users: false,
       });
       break;
     case 4:
@@ -46,6 +49,7 @@ export const toggleDayActive = (num, fun) => {
         saturday: false,
         sunday: false,
         employees: false,
+        users: false,
       });
       break;
     case 5:
@@ -58,6 +62,7 @@ export const toggleDayActive = (num, fun) => {
         saturday: false,
         sunday: false,
         employees: false,
+        users: false,
       });
       break;
     case 6:
@@ -70,6 +75,7 @@ export const toggleDayActive = (num, fun) => {
         saturday: true,
         sunday: false,
         employees: false,
+        users: false,
       });
       break;
     case 7:
@@ -82,6 +88,7 @@ export const toggleDayActive = (num, fun) => {
         saturday: false,
         sunday: true,
         employees: false,
+        users: false,
       });
       break;
     case 8:
@@ -94,6 +101,20 @@ export const toggleDayActive = (num, fun) => {
         saturday: false,
         sunday: false,
         employees: true,
+        users: false,
+      });
+      break;
+    case 9:
+      fun({
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false,
+        sunday: false,
+        employees: false,
+        users: true,
       });
       break;
     default:
@@ -106,6 +127,7 @@ export const toggleDayActive = (num, fun) => {
         saturday: false,
         sunday: false,
         employees: false,
+        users: false,
       });
   }
 };

@@ -179,6 +179,7 @@ export const HomeScreenMainContentGridContainer = styled.div`
   width: 100%;
   display: flex;
   padding: 1%;
+  overflow-y: auto;
   justify-content: center;
   @media (max-width: 414px) {
     padding: 0;
@@ -197,6 +198,7 @@ export const HomeScreenMainContentGridCardContainer = styled.div`
   } */
 `;
 
+// Grid Card
 export const HomeScreenMainContentGridCard = styled.div`
   height: 200px;
   width: 250px;
@@ -288,4 +290,78 @@ export const HomeScreenMainContentGridCardFooterBtn = styled.div`
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.4s ease-in-out;
+`;
+
+// User Components
+export const UserCardContainer = styled.div`
+  height: 150px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 10px 0 5px -2px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  border-radius: 10px;
+  margin-top: 1%;
+  margin-bottom: 0.5%;
+  margin-left: 0.8%;
+  @media (max-width: 768px) {
+    width: 45%;
+    margin-left: 4%;
+  }
+  @media (max-width: 414px) {
+    width: 48%;
+    margin-left: 1.5%;
+  }
+  @media (max-width: 380px) {
+    width: 48%;
+    margin-top: 2%;
+  }
+  @media (max-width: 350px) {
+    width: 48%;
+    margin-top: 8%;
+  }
+`;
+
+export const UserCardHeader = styled.div`
+  height: 30%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-bottom: 1px solid lightgrey;
+`;
+
+export const UserCardBody = styled.div`
+  height: 50%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid lightgrey;
+`;
+
+export const UserCardBodyRow = styled.div`
+  height: 60%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+export const UserCardBodyText = styled.div`
+  height: 100%;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid lightgrey;
+  text-align: center;
+`;
+
+export const UserCardFooter = styled.div`
+  height: 40%;
+  width: 100%;
+  display: flex;
+  align-items: center;
 `;

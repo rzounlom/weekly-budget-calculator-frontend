@@ -10,10 +10,13 @@ import {
   RETRIEVE_USER_DETAILS_REQUEST,
   RETRIEVE_USER_DETAILS_SUCCESS,
   RETRIEVE_USER_DETAILS_FAIL,
+  GET_USERS_REQUEST,
+  GET_USERS_SUCCESS,
+  GET_USERS_FAIL,
 } from "../../constants/user/userConstants";
 
 export const userReducer = (
-  state = { loading: false, token: "", err: "" },
+  state = { loading: false, token: "", err: "", users: [] },
   action
 ) => {
   const { type, payload } = action;
@@ -48,6 +51,23 @@ export const userReducer = (
         userDetails: payload,
       };
     case RETRIEVE_USER_DETAILS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        err: payload,
+      };
+    case GET_USERS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_USERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        users: payload,
+      };
+    case GET_USERS_FAIL:
       return {
         ...state,
         loading: false,

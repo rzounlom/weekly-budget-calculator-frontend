@@ -9,6 +9,15 @@ export const FIND_USER_BY_ID = gql`
   }
 `;
 
+export const FIND_USERS = gql`
+  query findUsers($query: String) {
+    users: findUsers(query: $query) {
+      username
+      role
+    }
+  }
+`;
+
 export const LOGIN_USER = gql`
   query user($username: String!, $password: String!) {
     user: user(username: $username, password: $password) {

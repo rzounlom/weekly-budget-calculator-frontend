@@ -12,7 +12,6 @@ import {
 
 const ShiftCard = ({ shift }) => {
   if (shift) {
-    console.log(shift.employee);
     const { employeeId, firstName, lastName, position, rate } = shift.employee;
     const { hours } = shift;
     return (
@@ -42,7 +41,7 @@ const ShiftCard = ({ shift }) => {
               Payout:
             </HomeScreenMainContentGridCardBodyText>
             <HomeScreenMainContentGridCardBodyText>
-              ${hours * rate}
+              ${(hours * rate).toFixed(2)}
             </HomeScreenMainContentGridCardBodyText>
           </HomeScreenMainContentGridCardBodyRow>
         </HomeScreenMainContentGridCardBody>

@@ -8,11 +8,17 @@ import {
   RETRIEVE_USER_DETAILS_REQUEST,
   RETRIEVE_USER_DETAILS_SUCCESS,
   RETRIEVE_USER_DETAILS_FAIL,
+  GET_USERS_FAIL,
+  GET_USERS_REQUEST,
+  GET_USERS_SUCCESS,
 } from "../../constants/user/userConstants";
 import { login } from "../../../utils/auth";
 import { getAccessToken } from "../../../utils/auth";
 import { client } from "../../../graphql/client";
-import { FIND_USER_BY_ID } from "../../../graphql/Queries/user/userQueries";
+import {
+  FIND_USER_BY_ID,
+  FIND_USERS,
+} from "../../../graphql/Queries/user/userQueries";
 
 export const createUser = (data) => async (dispatch) => {
   return dispatch({
@@ -95,6 +101,33 @@ export const retrieveUserDetails = (id) => async (dispatch) => {
       await dispatch({
         type: RETRIEVE_USER_DETAILS_FAIL,
         payload: { err },
+      });
+    }
+  }
+};
+
+export const findUsers = (query) => async (dispatch) => {
+  try {
+    await dispatch({
+      type: GET_USERS_REQUEST,
+    });
+
+    const {
+      data: { users },
+    } = await client.query({
+      query: FIND_USERS,
+      variables: { query },
+    });
+    console.log(users);
+    dispatch({
+      type: GET_USERS_SUCCESS,
+      payload: users,
+    });
+  } catch (err) {
+    if (err) {
+      await dispatch({
+        type: GET_USERS_FAIL,
+        payload: err,
       });
     }
   }
