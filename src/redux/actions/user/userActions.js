@@ -118,7 +118,7 @@ export const findUsers = (query) => async (dispatch) => {
       query: FIND_USERS,
       variables: { query },
     });
-    console.log(users);
+
     dispatch({
       type: GET_USERS_SUCCESS,
       payload: users,

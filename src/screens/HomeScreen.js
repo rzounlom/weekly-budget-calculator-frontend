@@ -125,8 +125,6 @@ const HomeScreen = () => {
     }
   };
 
-  // console.log(users);
-  // console.log(employees);
   return (
     <HomeScreenContainer>
       <AddEmployeeToDayModal
@@ -231,7 +229,7 @@ const HomeScreen = () => {
             className={`side-nav-tab ${active.employees ? "active" : ""}`}
             onClick={async () => {
               toggleDayActive(8, setActive);
-              dispatch(findUsers());
+              await dispatch(getEmployees());
               setCardNumber(2);
             }}
           >
@@ -242,13 +240,13 @@ const HomeScreen = () => {
             className={`side-nav-tab ${active.users ? "active" : ""}`}
             onClick={async () => {
               toggleDayActive(9, setActive);
-              dispatch(getEmployees());
+              await dispatch(findUsers());
               setCardNumber(3);
             }}
           >
             Users
           </HomeScreenMainSideNavTabs>
-          {/* )} */}
+          {/*)*/}
         </HomeScreenMainSideNav>
         <HomeScreenMainContentContainer>
           <HomeScreenMainContentHeader>

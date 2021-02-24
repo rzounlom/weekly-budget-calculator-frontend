@@ -25,7 +25,6 @@ export const getEmployees = (query) => async (dispatch) => {
       query: GET_EMPLOYEES,
       variables: { query },
     });
-    console.log(employees);
 
     dispatch({
       type: GET_EMPLOYEES_SUCCESS,
