@@ -92,9 +92,9 @@ const HomeScreen = () => {
     <UserCard key={user.username} user={user} />
   ));
 
-  const renderEmployees = employees.map((employee) => (
-    <EmployeeCard key={employee.employeeId} employee={employee} />
-  ));
+  const renderEmployees = employees.map((employee) => {
+    return <EmployeeCard key={employee.employeeId} employee={employee} />;
+  });
 
   const renderCards = (num) => {
     switch (num) {
@@ -113,12 +113,20 @@ const HomeScreen = () => {
       case 3:
         return renderUsers;
       default:
-        break;
+        return renderDayShifts.length > 0 ? (
+          renderDayShifts
+        ) : (
+          <HomeScreenMainContentHeaderNoShifts>
+            <h2>
+              No shifts added to <span>{shiftDay}</span> yet
+            </h2>
+          </HomeScreenMainContentHeaderNoShifts>
+        );
     }
   };
 
-  console.log(users);
-  console.log(employees);
+  // console.log(users);
+  // console.log(employees);
   return (
     <HomeScreenContainer>
       <AddEmployeeToDayModal
@@ -146,6 +154,7 @@ const HomeScreen = () => {
             className={`side-nav-tab ${active.monday ? "active" : ""}`}
             onClick={async () => {
               toggleDayActive(1, setActive);
+              await dispatch(getAllShifts());
               setShiftDay("Monday");
               setCardNumber(1);
             }}
@@ -156,6 +165,7 @@ const HomeScreen = () => {
             className={`side-nav-tab ${active.tuesday ? "active" : ""}`}
             onClick={async () => {
               toggleDayActive(2, setActive);
+              await dispatch(getAllShifts());
               setShiftDay("Tuesday");
               setCardNumber(1);
             }}
@@ -166,6 +176,7 @@ const HomeScreen = () => {
             className={`side-nav-tab ${active.wednesday ? "active" : ""}`}
             onClick={async () => {
               toggleDayActive(3, setActive);
+              await dispatch(getAllShifts());
               setShiftDay("Wednesday");
               setCardNumber(1);
             }}
@@ -176,6 +187,7 @@ const HomeScreen = () => {
             className={`side-nav-tab ${active.thursday ? "active" : ""}`}
             onClick={async () => {
               toggleDayActive(4, setActive);
+              await dispatch(getAllShifts());
               setShiftDay("Thursday");
               setCardNumber(1);
             }}
@@ -186,6 +198,7 @@ const HomeScreen = () => {
             className={`side-nav-tab ${active.friday ? "active" : ""}`}
             onClick={async () => {
               toggleDayActive(5, setActive);
+              await dispatch(getAllShifts());
               setShiftDay("Friday");
               setCardNumber(1);
             }}
@@ -196,6 +209,7 @@ const HomeScreen = () => {
             className={`side-nav-tab ${active.saturday ? "active" : ""}`}
             onClick={async () => {
               toggleDayActive(6, setActive);
+              await dispatch(getAllShifts());
               setShiftDay("Saturday");
               setCardNumber(1);
             }}
@@ -206,6 +220,7 @@ const HomeScreen = () => {
             className={`side-nav-tab ${active.sunday ? "active" : ""}`}
             onClick={async () => {
               toggleDayActive(7, setActive);
+              await dispatch(getAllShifts());
               setShiftDay("Sunday");
               setCardNumber(1);
             }}
@@ -216,6 +231,7 @@ const HomeScreen = () => {
             className={`side-nav-tab ${active.employees ? "active" : ""}`}
             onClick={async () => {
               toggleDayActive(8, setActive);
+              dispatch(findUsers());
               setCardNumber(2);
             }}
           >
@@ -226,6 +242,7 @@ const HomeScreen = () => {
             className={`side-nav-tab ${active.users ? "active" : ""}`}
             onClick={async () => {
               toggleDayActive(9, setActive);
+              dispatch(getEmployees());
               setCardNumber(3);
             }}
           >

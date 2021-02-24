@@ -11,9 +11,6 @@ import { store } from "./redux/store/store";
 import { Provider } from "react-redux";
 
 ReactDOM.render(
-  // <Provider store={store}>
-  //   <App />
-  // </Provider>,
   <ApolloProvider client={client}>
     <Provider store={store}>
       <App />
