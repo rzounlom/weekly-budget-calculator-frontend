@@ -6,6 +6,7 @@ import UserCard from "../components/HomeScreenComponents/UserCard";
 import EmployeeCard from "../components/HomeScreenComponents/EmployeeCard";
 import AddEmployeeToDayModal from "../components/HomeScreenComponents/AddEmployeeToDayModal";
 import ClearShiftsModal from "../components/HomeScreenComponents/ClearShiftsModal";
+import { Loader } from "rsuite";
 import {
   HomeScreenContainer,
   HomeScreenNav,
@@ -31,6 +32,7 @@ import {
 import { getAllShifts } from "../redux/actions/shift/shiftActions";
 import { getEmployees } from "../redux/actions/employee/employeeActions";
 import { findUsers } from "../redux/actions/user/userActions";
+import { logout } from "../utils/auth";
 
 const HomeScreen = () => {
   const id = useSelector((state) => state.user.userId);
@@ -69,16 +71,16 @@ const HomeScreen = () => {
   useEffect(() => {
     dispatch(retrieveUserToken());
     if (id) {
+      toggleDayActive(1, setActive);
+      setShiftDay("Monday");
       dispatch(retrieveUserDetails(id));
       dispatch(getAllShifts());
       dispatch(getEmployees());
       dispatch(findUsers());
-      setShiftDay("Monday");
-      toggleDayActive(1, setActive);
     }
   }, [dispatch, id]);
 
-  const { shifts } = useSelector((state) => state.shift);
+  const { shifts, loading } = useSelector((state) => state.shift);
   const { users } = useSelector((state) => state.user);
   const { employees } = useSelector((state) => state.employee);
 
@@ -99,21 +101,41 @@ const HomeScreen = () => {
   const renderCards = (num) => {
     switch (num) {
       case 1:
-        return renderDayShifts.length > 0 ? (
+        return loading ? (
+          <Loader size="lg" backdrop content="loading..." vertical />
+        ) : renderDayShifts.length > 0 ? (
           renderDayShifts
         ) : (
           <HomeScreenMainContentHeaderNoShifts>
             <h2>
-              No shifts added to <span>{shiftDay}</span> yet
+              No shifts added to <span>{shiftDay}</span> yet.
             </h2>
           </HomeScreenMainContentHeaderNoShifts>
         );
       case 2:
-        return renderEmployees;
+        return renderEmployees.length > 0 ? (
+          renderEmployees
+        ) : (
+          <HomeScreenMainContentHeaderNoShifts>
+            <h2>
+              No <span>Employees</span> added yet.
+            </h2>
+          </HomeScreenMainContentHeaderNoShifts>
+        );
       case 3:
-        return renderUsers;
+        return renderUsers.length > 0 ? (
+          renderUsers
+        ) : (
+          <HomeScreenMainContentHeaderNoShifts>
+            <h2>
+              No <span>Users</span> added yet.
+            </h2>
+          </HomeScreenMainContentHeaderNoShifts>
+        );
       default:
-        return renderDayShifts.length > 0 ? (
+        return loading ? (
+          <Loader size="lg" backdrop content="loading..." vertical />
+        ) : renderDayShifts.length > 0 ? (
           renderDayShifts
         ) : (
           <HomeScreenMainContentHeaderNoShifts>
@@ -143,7 +165,15 @@ const HomeScreen = () => {
           <div className="navbar-text username">rzounlome</div>
         </HomeScreenNavLeft>
         <HomeScreenNavRight>
-          <div className="navbar-text logout">Logout</div>
+          <div
+            className="navbar-text logout"
+            onClick={async () => {
+              await logout();
+              await window.location.replace("/home");
+            }}
+          >
+            Logout
+          </div>
         </HomeScreenNavRight>
       </HomeScreenNav>
       <HomeScreenMainSection>
@@ -267,7 +297,11 @@ const HomeScreen = () => {
           </HomeScreenMainContentHeader>
           <HomeScreenMainContentGridContainer>
             <HomeScreenMainContentGridCardContainer>
-              {renderCards(cardNumber)}
+              {loading ? (
+                <Loader size="lg" backdrop content="loading..." vertical />
+              ) : (
+                renderCards(cardNumber)
+              )}
             </HomeScreenMainContentGridCardContainer>
           </HomeScreenMainContentGridContainer>
         </HomeScreenMainContentContainer>
