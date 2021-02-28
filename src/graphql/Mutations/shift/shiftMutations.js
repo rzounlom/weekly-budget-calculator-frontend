@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_SHIFT = gql`
-  mutation createShift($employeeId: Number!, $hours: Number!, $day: String!) {
-    shifts: findShiftsByDay(employeeId: $employeeId, hours: $hours, day: $day) {
+  mutation createShift($data: CreateShiftInput) {
+    createdShift: createShift(data: $data) {
       day
       hours
       employee {

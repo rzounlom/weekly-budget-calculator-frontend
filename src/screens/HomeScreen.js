@@ -29,7 +29,10 @@ import {
   retrieveUserToken,
   retrieveUserDetails,
 } from "../redux/actions/user/userActions";
-import { getAllShifts } from "../redux/actions/shift/shiftActions";
+import {
+  getAllShifts,
+  getShiftsByDay,
+} from "../redux/actions/shift/shiftActions";
 import { getEmployees } from "../redux/actions/employee/employeeActions";
 import { findUsers } from "../redux/actions/user/userActions";
 import { logout } from "../utils/auth";
@@ -77,18 +80,27 @@ const HomeScreen = () => {
       dispatch(getAllShifts());
       dispatch(getEmployees());
       dispatch(findUsers());
+      dispatch(getShiftsByDay("Monday"));
     }
   }, [dispatch, id]);
 
-  const { shifts, loading } = useSelector((state) => state.shift);
   const { users } = useSelector((state) => state.user);
   const { employees } = useSelector((state) => state.employee);
+  const { shiftsByDay, loading } = useSelector((state) => state.shift);
 
-  const renderDayShifts = shifts
-    .filter((shift) => shift.day === shiftDay)
-    .map((shift) => (
-      <ShiftCard key={shift.employee.employeeId} shift={shift} />
-    ));
+  const renderDayShifts = async () => {
+    await dispatch(getShiftsByDay("Monday"));
+    return shiftsByDay
+      .filter((shift) => shift.day === shiftDay)
+      .map((shift) => (
+        <ShiftCard key={shift.employee.employeeId} shift={shift} />
+      ));
+  };
+
+  const renderShiftsByDay = async (day) => {
+    await dispatch(getShiftsByDay(day));
+    console.log(shiftsByDay);
+  };
 
   const renderUsers = users.map((user) => (
     <UserCard key={user.username} user={user} />
@@ -103,8 +115,8 @@ const HomeScreen = () => {
       case 1:
         return loading ? (
           <Loader size="lg" backdrop content="loading..." vertical />
-        ) : renderDayShifts.length > 0 ? (
-          renderDayShifts
+        ) : renderDayShifts().length > 0 ? (
+          renderDayShifts()
         ) : (
           <HomeScreenMainContentHeaderNoShifts>
             <h2>
@@ -135,15 +147,16 @@ const HomeScreen = () => {
       default:
         return loading ? (
           <Loader size="lg" backdrop content="loading..." vertical />
-        ) : renderDayShifts.length > 0 ? (
-          renderDayShifts
         ) : (
-          <HomeScreenMainContentHeaderNoShifts>
-            <h2>
-              No shifts added to <span>{shiftDay}</span> yet
-            </h2>
-          </HomeScreenMainContentHeaderNoShifts>
+          renderDayShifts()
         );
+      // : (
+      //   <HomeScreenMainContentHeaderNoShifts>
+      //     <h2>
+      //       No shifts added to <span>{shiftDay}</span> yet
+      //     </h2>
+      //   </HomeScreenMainContentHeaderNoShifts>
+      // );
     }
   };
 
@@ -160,7 +173,12 @@ const HomeScreen = () => {
       <HomeScreenNav>
         <HomeScreenNavLeft>
           <div className="nav-toggle">
-            <NavToggle />
+            <NavToggle
+              logout={logout}
+              toggleDayActive={toggleDayActive}
+              setShiftDay={setShiftDay}
+              setCardNumber={setCardNumber}
+            />
           </div>
           <div className="navbar-text username">rzounlome</div>
         </HomeScreenNavLeft>
@@ -184,6 +202,7 @@ const HomeScreen = () => {
               toggleDayActive(1, setActive);
               await dispatch(getAllShifts());
               setShiftDay("Monday");
+              await dispatch(getShiftsByDay("Monday"));
               setCardNumber(1);
             }}
           >
@@ -195,6 +214,7 @@ const HomeScreen = () => {
               toggleDayActive(2, setActive);
               await dispatch(getAllShifts());
               setShiftDay("Tuesday");
+              dispatch(getShiftsByDay("Tuesday"));
               setCardNumber(1);
             }}
           >
@@ -206,6 +226,7 @@ const HomeScreen = () => {
               toggleDayActive(3, setActive);
               await dispatch(getAllShifts());
               setShiftDay("Wednesday");
+              await dispatch(getShiftsByDay("Wednesday"));
               setCardNumber(1);
             }}
           >
@@ -217,6 +238,7 @@ const HomeScreen = () => {
               toggleDayActive(4, setActive);
               await dispatch(getAllShifts());
               setShiftDay("Thursday");
+              await dispatch(getShiftsByDay("Thursday"));
               setCardNumber(1);
             }}
           >
@@ -228,6 +250,7 @@ const HomeScreen = () => {
               toggleDayActive(5, setActive);
               await dispatch(getAllShifts());
               setShiftDay("Friday");
+              await dispatch(getShiftsByDay("Friday"));
               setCardNumber(1);
             }}
           >
@@ -239,6 +262,7 @@ const HomeScreen = () => {
               toggleDayActive(6, setActive);
               await dispatch(getAllShifts());
               setShiftDay("Saturday");
+              await dispatch(getShiftsByDay("Saturday"));
               setCardNumber(1);
             }}
           >
@@ -250,6 +274,7 @@ const HomeScreen = () => {
               toggleDayActive(7, setActive);
               await dispatch(getAllShifts());
               setShiftDay("Sunday");
+              await dispatch(getShiftsByDay("Sunday"));
               setCardNumber(1);
             }}
           >

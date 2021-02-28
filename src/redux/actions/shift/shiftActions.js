@@ -16,13 +16,7 @@ import {
   GET_SHIFTS_BY_DAY,
 } from "../../../graphql/Queries/shift/shiftQueries";
 
-export const createShift = ({
-  employeeId,
-  firstName,
-  lastName,
-  position,
-  rate,
-}) => async (dispatch) => {
+export const createShift = (day, employeeId, hours) => async (dispatch) => {
   dispatch({
     type: CREATE_SHIFT_REQUEST,
   });
@@ -30,7 +24,7 @@ export const createShift = ({
   try {
     const data = await client.mutate({
       mutation: CREATE_SHIFT,
-      variables: { data: { employeeId, firstName, lastName, position, rate } },
+      variables: { data: { day, employeeId, hours } },
     });
     console.log(data);
     dispatch({
@@ -75,14 +69,16 @@ export const getShiftsByDay = (day) => async (dispatch) => {
   dispatch({ type: GET_SHIFTS_BY_DAY_REQUEST });
 
   try {
-    const data = await client.query({
+    const {
+      data: { shifts },
+    } = await client.query({
       query: GET_SHIFTS_BY_DAY,
       variables: { day },
     });
 
     dispatch({
       type: GET_SHIFTS_BY_DAY_SUCCESS,
-      payload: data,
+      payload: shifts,
     });
   } catch (err) {
     if (err) {
