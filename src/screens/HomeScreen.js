@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../styles/HomeScreen/styles.scss";
-import ShiftCard from "../components/HomeScreenComponents/ShiftCard";
-import UserCard from "../components/HomeScreenComponents/UserCard";
-import EmployeeCard from "../components/HomeScreenComponents/EmployeeCard";
 import AddEmployeeToDayModal from "../components/HomeScreenComponents/AddEmployeeToDayModal";
 import ClearShiftsModal from "../components/HomeScreenComponents/ClearShiftsModal";
-import { Loader } from "rsuite";
 import {
   HomeScreenContainer,
   HomeScreenNav,
@@ -21,7 +17,6 @@ import {
   HomeScreenMainContentHeaderBtn,
   HomeScreenMainContentGridContainer,
   HomeScreenMainContentGridCardContainer,
-  HomeScreenMainContentHeaderNoShifts,
 } from "../components/HomeScreenComponents/HomeScreenComponents";
 import NavToggle from "../components/HomeScreenComponents/NavToggle";
 import { toggleDayActive } from "../utils/toggleDayActive";
@@ -36,12 +31,18 @@ import {
 import { getEmployees } from "../redux/actions/employee/employeeActions";
 import { findUsers } from "../redux/actions/user/userActions";
 import { logout } from "../utils/auth";
+import RenderShifts from "../components/HomeScreenComponents/RenderShifts";
+import RenderEmployees from "../components/HomeScreenComponents/RenderEmployees";
+import RenderUsers from "../components/HomeScreenComponents/RenderUsers";
 
 const HomeScreen = () => {
   const id = useSelector((state) => state.user.userId);
   const user = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
-  const [cardNumber, setCardNumber] = useState(1);
+  const [gridNum, setGridNum] = useState(1);
+  const [refreshShiftsByDay, setRefreshShiftsByDay] = useState(false);
+  const [refreshEmployees, setRefreshEmployees] = useState(false);
+  const [refreshUsers, setRefreshUsers] = useState(false);
   const [active, setActive] = useState({
     monday: true,
     tuesday: false,
@@ -86,77 +87,29 @@ const HomeScreen = () => {
 
   const { users } = useSelector((state) => state.user);
   const { employees } = useSelector((state) => state.employee);
-  const { shiftsByDay, loading } = useSelector((state) => state.shift);
+  const { shiftsByDay } = useSelector((state) => state.shift);
 
-  const renderDayShifts = async () => {
-    await dispatch(getShiftsByDay("Monday"));
-    return shiftsByDay
-      .filter((shift) => shift.day === shiftDay)
-      .map((shift) => (
-        <ShiftCard key={shift.employee.employeeId} shift={shift} />
-      ));
-  };
-
-  const renderShiftsByDay = async (day) => {
-    await dispatch(getShiftsByDay(day));
-    console.log(shiftsByDay);
-  };
-
-  const renderUsers = users.map((user) => (
-    <UserCard key={user.username} user={user} />
-  ));
-
-  const renderEmployees = employees.map((employee) => {
-    return <EmployeeCard key={employee.employeeId} employee={employee} />;
-  });
-
-  const renderCards = (num) => {
+  const renderGridComponent = (num) => {
     switch (num) {
       case 1:
-        return loading ? (
-          <Loader size="lg" backdrop content="loading..." vertical />
-        ) : renderDayShifts().length > 0 ? (
-          renderDayShifts()
-        ) : (
-          <HomeScreenMainContentHeaderNoShifts>
-            <h2>
-              No shifts added to <span>{shiftDay}</span> yet.
-            </h2>
-          </HomeScreenMainContentHeaderNoShifts>
+        return (
+          <RenderShifts
+            day={shiftDay}
+            setRefreshShiftsByDay={setRefreshShiftsByDay}
+            refreshShiftsByDay={refreshShiftsByDay}
+          />
         );
       case 2:
-        return renderEmployees.length > 0 ? (
-          renderEmployees
-        ) : (
-          <HomeScreenMainContentHeaderNoShifts>
-            <h2>
-              No <span>Employees</span> added yet.
-            </h2>
-          </HomeScreenMainContentHeaderNoShifts>
-        );
+        return <RenderEmployees gridNum={gridNum} setGridNum={setGridNum} />;
       case 3:
-        return renderUsers.length > 0 ? (
-          renderUsers
-        ) : (
-          <HomeScreenMainContentHeaderNoShifts>
-            <h2>
-              No <span>Users</span> added yet.
-            </h2>
-          </HomeScreenMainContentHeaderNoShifts>
+        return (
+          <RenderUsers
+            refreshUsers={refreshUsers}
+            setRefreshUsers={setRefreshUsers}
+          />
         );
       default:
-        return loading ? (
-          <Loader size="lg" backdrop content="loading..." vertical />
-        ) : (
-          renderDayShifts()
-        );
-      // : (
-      //   <HomeScreenMainContentHeaderNoShifts>
-      //     <h2>
-      //       No shifts added to <span>{shiftDay}</span> yet
-      //     </h2>
-      //   </HomeScreenMainContentHeaderNoShifts>
-      // );
+        break;
     }
   };
 
@@ -177,7 +130,7 @@ const HomeScreen = () => {
               logout={logout}
               toggleDayActive={toggleDayActive}
               setShiftDay={setShiftDay}
-              setCardNumber={setCardNumber}
+              setGridNum={setGridNum}
             />
           </div>
           <div className="navbar-text username">rzounlome</div>
@@ -203,7 +156,8 @@ const HomeScreen = () => {
               await dispatch(getAllShifts());
               setShiftDay("Monday");
               await dispatch(getShiftsByDay("Monday"));
-              setCardNumber(1);
+              setGridNum(1);
+              setRefreshShiftsByDay(true);
             }}
           >
             Monday
@@ -215,7 +169,8 @@ const HomeScreen = () => {
               await dispatch(getAllShifts());
               setShiftDay("Tuesday");
               dispatch(getShiftsByDay("Tuesday"));
-              setCardNumber(1);
+              setGridNum(1);
+              setRefreshShiftsByDay(true);
             }}
           >
             Tuesday
@@ -227,7 +182,8 @@ const HomeScreen = () => {
               await dispatch(getAllShifts());
               setShiftDay("Wednesday");
               await dispatch(getShiftsByDay("Wednesday"));
-              setCardNumber(1);
+              setGridNum(1);
+              setRefreshShiftsByDay(true);
             }}
           >
             Wednesday
@@ -239,7 +195,8 @@ const HomeScreen = () => {
               await dispatch(getAllShifts());
               setShiftDay("Thursday");
               await dispatch(getShiftsByDay("Thursday"));
-              setCardNumber(1);
+              setGridNum(1);
+              setRefreshShiftsByDay(true);
             }}
           >
             Thursday
@@ -251,7 +208,8 @@ const HomeScreen = () => {
               await dispatch(getAllShifts());
               setShiftDay("Friday");
               await dispatch(getShiftsByDay("Friday"));
-              setCardNumber(1);
+              setGridNum(1);
+              setRefreshShiftsByDay(true);
             }}
           >
             Friday
@@ -263,7 +221,8 @@ const HomeScreen = () => {
               await dispatch(getAllShifts());
               setShiftDay("Saturday");
               await dispatch(getShiftsByDay("Saturday"));
-              setCardNumber(1);
+              setGridNum(1);
+              setRefreshShiftsByDay(true);
             }}
           >
             Saturday
@@ -275,7 +234,8 @@ const HomeScreen = () => {
               await dispatch(getAllShifts());
               setShiftDay("Sunday");
               await dispatch(getShiftsByDay("Sunday"));
-              setCardNumber(1);
+              setGridNum(1);
+              setRefreshShiftsByDay(true);
             }}
           >
             Sunday
@@ -285,7 +245,7 @@ const HomeScreen = () => {
             onClick={async () => {
               toggleDayActive(8, setActive);
               await dispatch(getEmployees());
-              setCardNumber(2);
+              setGridNum(2);
             }}
           >
             Employees
@@ -296,7 +256,7 @@ const HomeScreen = () => {
             onClick={async () => {
               toggleDayActive(9, setActive);
               await dispatch(findUsers());
-              setCardNumber(3);
+              setGridNum(3);
             }}
           >
             Users
@@ -322,11 +282,20 @@ const HomeScreen = () => {
           </HomeScreenMainContentHeader>
           <HomeScreenMainContentGridContainer>
             <HomeScreenMainContentGridCardContainer>
-              {loading ? (
-                <Loader size="lg" backdrop content="loading..." vertical />
-              ) : (
-                renderCards(cardNumber)
-              )}
+              {/* <RenderShifts
+                day={shiftDay}
+                setRefreshShiftsByDay={setRefreshShiftsByDay}
+                refreshShiftsByDay={refreshShiftsByDay}
+              />
+              <RenderEmployees
+                refreshEmployees={refreshEmployees}
+                setRefreshEmployees={setRefreshEmployees}
+              />
+              <RenderUsers
+                refreshUsers={refreshUsers}
+                setRefreshUsers={setRefreshUsers}
+              /> */}
+              {renderGridComponent(gridNum)}
             </HomeScreenMainContentGridCardContainer>
           </HomeScreenMainContentGridContainer>
         </HomeScreenMainContentContainer>
