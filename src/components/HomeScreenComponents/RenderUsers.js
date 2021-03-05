@@ -17,7 +17,7 @@ const RenderUsers = ({ refreshUsers, setRefreshUsers }) => {
   };
   if (networkStatus === networkStatus.refetch) return "Refetching!";
   if (loading)
-    return <Loader size="lg" backdrop content="loading..." vertical />;
+    return <Loader size="lg" backdrop content="Loading Users..." vertical />;
   if (error) return `Error! ${error}`;
   if (refreshUsers) {
     handleRefetch();

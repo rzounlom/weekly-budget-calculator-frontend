@@ -18,12 +18,11 @@ const RenderShifts = ({ day, refreshShiftsByDay, setRefreshShiftsByDay }) => {
   };
   if (networkStatus === networkStatus.refetch) return "Refetching!";
   if (loading)
-    return <Loader size="lg" backdrop content="loading..." vertical />;
+    return <Loader size="lg" backdrop content="Loading Shifts..." vertical />;
   if (error) return `Error! ${error}`;
   if (refreshShiftsByDay) {
     handleRefetch();
   }
-  console.log(data);
   if (data.shifts && data.shifts < 1) {
     return (
       <HomeScreenMainContentHeaderNoShifts>

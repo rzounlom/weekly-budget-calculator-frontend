@@ -32,13 +32,14 @@ export const createShift = (day, employeeId, hours) => async (dispatch) => {
       payload: data,
     });
     return data;
-  } catch (err) {
-    if (err) {
+  } catch (errors) {
+    if (errors) {
       dispatch({
         type: CREATE_SHIFT_FAIL,
-        payload: err,
+        payload: errors,
       });
-      throw new Error("There was an issue creating your shift");
+      console.log(errors.message);
+      return errors.message;
     }
   }
 };

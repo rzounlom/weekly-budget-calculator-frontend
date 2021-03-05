@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../styles/HomeScreen/styles.scss";
+import { Message } from "rsuite";
 import AddEmployeeToDayModal from "../components/HomeScreenComponents/AddEmployeeToDayModal";
 import ClearShiftsModal from "../components/HomeScreenComponents/ClearShiftsModal";
 import {
@@ -43,6 +44,13 @@ const HomeScreen = () => {
   const [refreshShiftsByDay, setRefreshShiftsByDay] = useState(false);
   const [refreshEmployees, setRefreshEmployees] = useState(false);
   const [refreshUsers, setRefreshUsers] = useState(false);
+  const [globalMessage, setGlobalMessage] = useState("");
+  const handleGlobalMessage = (message) => {
+    setGlobalMessage(message);
+    setTimeout(() => {
+      setGlobalMessage("");
+    }, 5000);
+  };
   const [active, setActive] = useState({
     monday: true,
     tuesday: false,
@@ -85,10 +93,6 @@ const HomeScreen = () => {
     }
   }, [dispatch, id]);
 
-  const { users } = useSelector((state) => state.user);
-  const { employees } = useSelector((state) => state.employee);
-  const { shiftsByDay } = useSelector((state) => state.shift);
-
   const renderGridComponent = (num) => {
     switch (num) {
       case 1:
@@ -115,9 +119,21 @@ const HomeScreen = () => {
 
   return (
     <HomeScreenContainer>
+      {globalMessage && (
+        <Message
+          style={{ width: "100%" }}
+          closable
+          showIcon
+          type="success"
+          title="Success"
+          description={globalMessage}
+        />
+      )}
       <AddEmployeeToDayModal
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
+        handleGlobalMessage={handleGlobalMessage}
+        setRefreshShiftsByDay={setRefreshShiftsByDay}
       />
       <ClearShiftsModal
         shiftModalIsOpen={shiftModalIsOpen}
@@ -133,7 +149,12 @@ const HomeScreen = () => {
               setGridNum={setGridNum}
             />
           </div>
-          <div className="navbar-text username">rzounlome</div>
+          <div
+            className="navbar-text username"
+            onClick={() => handleGlobalMessage("This is a test")}
+          >
+            rzounlome
+          </div>
         </HomeScreenNavLeft>
         <HomeScreenNavRight>
           <div
@@ -282,19 +303,6 @@ const HomeScreen = () => {
           </HomeScreenMainContentHeader>
           <HomeScreenMainContentGridContainer>
             <HomeScreenMainContentGridCardContainer>
-              {/* <RenderShifts
-                day={shiftDay}
-                setRefreshShiftsByDay={setRefreshShiftsByDay}
-                refreshShiftsByDay={refreshShiftsByDay}
-              />
-              <RenderEmployees
-                refreshEmployees={refreshEmployees}
-                setRefreshEmployees={setRefreshEmployees}
-              />
-              <RenderUsers
-                refreshUsers={refreshUsers}
-                setRefreshUsers={setRefreshUsers}
-              /> */}
               {renderGridComponent(gridNum)}
             </HomeScreenMainContentGridCardContainer>
           </HomeScreenMainContentGridContainer>

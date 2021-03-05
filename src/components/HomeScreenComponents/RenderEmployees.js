@@ -17,12 +17,13 @@ const RenderEmployees = ({ refreshEmployees, setRefreshEmployees }) => {
   };
   if (networkStatus === networkStatus.refetch) return "Refetching!";
   if (loading)
-    return <Loader size="lg" backdrop content="loading..." vertical />;
+    return (
+      <Loader size="lg" backdrop content="Loading Employees..." vertical />
+    );
   if (error) return `Error! ${error}`;
   if (refreshEmployees) {
     handleRefetch();
   }
-  console.log(data);
   if (data.employees && data.employees < 1) {
     return (
       <HomeScreenMainContentHeaderNoShifts>
