@@ -52,8 +52,6 @@ const AddEmployeeToDayModal = ({
   const handleUsernameChange = async (value) => {
     await setUsernameValue(value.employeeId);
     await setUsername(value.employee);
-    console.log(`employId: ${usernameValue}`);
-    console.log(`usenameValue: ${username}`);
   };
 
   const handleUserHourChange = async (num) => {
@@ -85,7 +83,6 @@ const AddEmployeeToDayModal = ({
       closeModal();
     } catch (errors) {
       if (errors) {
-        console.log(errors.toString().substring(6));
         setTimeout(() => {});
         await setError(errors.toString().substring(6));
         await setTimeout(() => {

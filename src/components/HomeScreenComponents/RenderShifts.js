@@ -1,10 +1,37 @@
+import React, { useState } from "react";
 import { Loader } from "rsuite";
 import { useQuery } from "@apollo/client";
 import { GET_SHIFTS_BY_DAY } from "../../graphql/Queries/shift/shiftQueries";
 import { HomeScreenMainContentHeaderNoShifts } from "./HomeScreenComponents";
 import ShiftCard from "./ShiftCard";
+import EditShiftModal from "./EditShiftModal";
 
-const RenderShifts = ({ day, refreshShiftsByDay, setRefreshShiftsByDay }) => {
+const RenderShifts = ({
+  day,
+  refreshShiftsByDay,
+  setRefreshShiftsByDay,
+  openEditShiftsModal,
+}) => {
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [editModalIsOpen, setEditModalIsOpen] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const openEditModal = () => {
+    setEditModalIsOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setEditModalIsOpen(false);
+  };
+
+  const [shiftModalIsOpen, setShiftModalIsOpen] = useState(false);
   const { loading, error, data, refetch, networkStatus } = useQuery(
     GET_SHIFTS_BY_DAY,
     {
@@ -32,9 +59,19 @@ const RenderShifts = ({ day, refreshShiftsByDay, setRefreshShiftsByDay }) => {
       </HomeScreenMainContentHeaderNoShifts>
     );
   } else {
-    return data.shifts.map((shift) => (
-      <ShiftCard key={shift.employee.employeeId} shift={shift} />
-    ));
+    const handleRenderShifts = () => {
+      return data.shifts.map((shift) => (
+        <ShiftCard
+          key={shift.employee.employeeId}
+          shift={shift}
+          editModalIsOpen={editModalIsOpen}
+          openEditModal={openEditModal}
+          closeEditModal={closeEditModal}
+          openEditShiftsModal={openEditShiftsModal}
+        />
+      ));
+    };
+    return <>{handleRenderShifts()}</>;
   }
 };
 

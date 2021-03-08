@@ -8,10 +8,13 @@ import {
   GET_SHIFTS_SUCCESS,
   GET_SHIFTS_BY_DAY_REQUEST,
   GET_SHIFTS_BY_DAY_FAIL,
+  SET_CURRENT_SHIFT_REQUEST,
+  SET_CURRENT_SHIFT_SUCCESS,
+  SET_CURRENT_SHIFT_FAIL,
 } from "../../../redux/constants/shift/shiftConstants";
 
 export const shiftReducer = (
-  state = { shifts: [], loading: false },
+  state = { shifts: [], loading: false, currentShift: {} },
   action
 ) => {
   const { type, payload } = action;
@@ -34,6 +37,12 @@ export const shiftReducer = (
       return { ...state, loading: false, shiftsByDay: payload };
     case GET_SHIFTS_BY_DAY_FAIL:
       return { ...state, loading: false };
+    case SET_CURRENT_SHIFT_REQUEST:
+      return { ...state, loading: true };
+    case SET_CURRENT_SHIFT_SUCCESS:
+      return { ...state, loading: false, currentShift: payload };
+    case SET_CURRENT_SHIFT_FAIL:
+      return { ...state, loading: false, error: payload };
     default:
       return state;
   }

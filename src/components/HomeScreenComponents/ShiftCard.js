@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import {
   HomeScreenMainContentGridCard,
   HomeScreenMainContentGridCardHeader,
@@ -9,8 +10,10 @@ import {
   HomeScreenMainContentGridCardFooterRow,
   HomeScreenMainContentGridCardFooterBtn,
 } from "./HomeScreenComponents";
+import { setCurrentShift } from "../../redux/actions/shift/shiftActions";
 
-const ShiftCard = ({ shift }) => {
+const ShiftCard = ({ shift, openEditShiftsModal }) => {
+  const dispatch = useDispatch();
   if (shift) {
     const { employeeId, firstName, lastName, position, rate } = shift.employee;
     const { hours } = shift;
@@ -47,7 +50,13 @@ const ShiftCard = ({ shift }) => {
         </HomeScreenMainContentGridCardBody>
         <HomeScreenMainContentGridCardFooter>
           <HomeScreenMainContentGridCardFooterRow>
-            <HomeScreenMainContentGridCardFooterBtn className="card-footer-btn edit">
+            <HomeScreenMainContentGridCardFooterBtn
+              className="card-footer-btn edit"
+              onClick={() => {
+                dispatch(setCurrentShift(shift));
+                openEditShiftsModal();
+              }}
+            >
               Edit
             </HomeScreenMainContentGridCardFooterBtn>
             <HomeScreenMainContentGridCardFooterBtn className="card-footer-btn delete">

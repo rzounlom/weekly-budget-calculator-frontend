@@ -9,6 +9,9 @@ import {
   GET_SHIFTS_BY_DAY_REQUEST,
   GET_SHIFTS_BY_DAY_SUCCESS,
   GET_SHIFTS_BY_DAY_FAIL,
+  SET_CURRENT_SHIFT_FAIL,
+  SET_CURRENT_SHIFT_REQUEST,
+  SET_CURRENT_SHIFT_SUCCESS,
 } from "../../constants/shift/shiftConstants";
 import { CREATE_SHIFT } from "../../../graphql/Mutations/shift/shiftMutations";
 import {
@@ -85,6 +88,19 @@ export const getShiftsByDay = (day) => async (dispatch) => {
     if (err) {
       dispatch({ type: GET_SHIFTS_BY_DAY_FAIL, payload: err });
       throw new Error(err);
+    }
+  }
+};
+
+export const setCurrentShift = (shift) => (dispatch) => {
+  dispatch({ type: SET_CURRENT_SHIFT_REQUEST });
+
+  try {
+    dispatch({ type: SET_CURRENT_SHIFT_SUCCESS, payload: shift });
+  } catch (error) {
+    if (error) {
+      dispatch({ type: SET_CURRENT_SHIFT_FAIL, payload: error });
+      console.Error(error);
     }
   }
 };
