@@ -42,10 +42,6 @@ const DeleteShiftModal = ({
   const [updateHours, setUpdateHours] = useState(0);
   const [employeeId, setEmployeeId] = useState("");
 
-  const handleUpdateHours = async (num) => {
-    await setUpdateHours(num);
-  };
-
   useEffect(() => {
     setShift(currentShift);
     const handleEmployeeId = () => {
@@ -70,8 +66,6 @@ const DeleteShiftModal = ({
     event.preventDefault();
 
     try {
-      console.log(`day: ${updateDay}`);
-      console.log(`employeeId: ${employeeId}`);
       const { message } = await client.mutate({
         mutation: DELETE_SHIFT,
         variables: {

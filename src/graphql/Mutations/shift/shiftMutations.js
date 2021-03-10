@@ -9,7 +9,7 @@ export const CREATE_SHIFT = gql`
 `;
 
 export const UPDATE_SHIFT = gql`
-  mutation createShift($data: UpdateShiftInput) {
+  mutation updateShift($data: UpdateShiftInput) {
     message: updateShift(data: $data) {
       message
     }
@@ -17,7 +17,7 @@ export const UPDATE_SHIFT = gql`
 `;
 
 export const DELETE_SHIFT = gql`
-  mutation createShift($data: DeleteShiftInput) {
+  mutation deleteSingleShift($data: DeleteShiftInput) {
     message: deleteSingleShift(data: $data) {
       message
     }

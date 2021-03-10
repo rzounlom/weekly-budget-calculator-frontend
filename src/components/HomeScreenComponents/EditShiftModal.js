@@ -44,12 +44,10 @@ const EditShiftModal = ({
 
   const handleUpdateDay = async (value) => {
     await setUpdateDay(value);
-    console.log(updateDay);
   };
 
   const handleUpdateHours = async (num) => {
     await setUpdateHours(num);
-    console.log(updateHours);
   };
 
   useEffect(() => {
