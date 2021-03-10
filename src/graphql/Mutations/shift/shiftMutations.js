@@ -7,3 +7,11 @@ export const CREATE_SHIFT = gql`
     }
   }
 `;
+
+export const UPDATE_SHIFT = gql`
+  mutation createShift($data: UpdateShiftInput) {
+    message: updateShift(data: $data) {
+      message
+    }
+  }
+`;

@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { client } from "../../graphql/client";
-import { SelectPicker, InputNumber, Input } from "rsuite";
+import { InputNumber, Input } from "rsuite";
+import { UPDATE_SHIFT } from "../../graphql/Mutations/shift/shiftMutations";
 import Modal from "react-modal";
 import {
   ModalContainer,
@@ -10,7 +11,6 @@ import {
   ModalFormBtnContainer,
   ModalFormBtn,
 } from "./ModalComponents";
-import { days } from "./data";
 
 Modal.setAppElement("#root");
 
@@ -74,9 +74,27 @@ const EditShiftModal = ({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("employeeId: " + employeeId);
-    console.log("day: " + updateDay);
-    console.log("hours: " + updateHours);
+    try {
+      const { message } = await client.mutate({
+        mutation: UPDATE_SHIFT,
+        variables: {
+          data: {
+            day: updateDay,
+            employeeId: employeeId,
+            hours: Number(updateHours),
+          },
+        },
+      });
+      handleGlobalMessage(
+        `${updateDay} updated for ${shift.employee.firstName} ${shift.employee.lastName}`
+      );
+      await setRefreshShiftsByDay(true);
+      closeEditShiftsModal();
+    } catch (errors) {
+      if (errors) {
+        console.log(errors);
+      }
+    }
   };
 
   return (
