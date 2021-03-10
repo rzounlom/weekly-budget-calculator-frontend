@@ -86,7 +86,7 @@ const EditShiftModal = ({
         },
       });
       handleGlobalMessage(
-        `${updateDay} updated for ${shift.employee.firstName} ${shift.employee.lastName}`
+        `${updateDay} shift updated for ${shift.employee.firstName} ${shift.employee.lastName}`
       );
       await setRefreshShiftsByDay(true);
       closeEditShiftsModal();

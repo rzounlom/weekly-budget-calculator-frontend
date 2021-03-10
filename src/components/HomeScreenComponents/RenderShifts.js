@@ -4,13 +4,13 @@ import { useQuery } from "@apollo/client";
 import { GET_SHIFTS_BY_DAY } from "../../graphql/Queries/shift/shiftQueries";
 import { HomeScreenMainContentHeaderNoShifts } from "./HomeScreenComponents";
 import ShiftCard from "./ShiftCard";
-import EditShiftModal from "./EditShiftModal";
 
 const RenderShifts = ({
   day,
   refreshShiftsByDay,
   setRefreshShiftsByDay,
   openEditShiftsModal,
+  openDeleteShiftsModal,
 }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
@@ -68,6 +68,7 @@ const RenderShifts = ({
           openEditModal={openEditModal}
           closeEditModal={closeEditModal}
           openEditShiftsModal={openEditShiftsModal}
+          openDeleteShiftsModal={openDeleteShiftsModal}
         />
       ));
     };

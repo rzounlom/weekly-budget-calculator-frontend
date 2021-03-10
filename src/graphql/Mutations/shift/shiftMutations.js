@@ -15,3 +15,11 @@ export const UPDATE_SHIFT = gql`
     }
   }
 `;
+
+export const DELETE_SHIFT = gql`
+  mutation createShift($data: DeleteShiftInput) {
+    message: deleteSingleShift(data: $data) {
+      message
+    }
+  }
+`;

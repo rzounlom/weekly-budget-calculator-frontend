@@ -5,6 +5,7 @@ import { Message } from "rsuite";
 import AddEmployeeToDayModal from "../components/HomeScreenComponents/AddEmployeeToDayModal";
 import ClearShiftsModal from "../components/HomeScreenComponents/ClearShiftsModal";
 import EditShiftModal from "../components/HomeScreenComponents/EditShiftModal";
+import DeleteShiftModal from "../components/HomeScreenComponents/DeleteShiftModal";
 import {
   HomeScreenContainer,
   HomeScreenNav,
@@ -89,6 +90,16 @@ const HomeScreen = () => {
     setEditShiftModalIsOpen(false);
   };
 
+  const [deleteShiftModalIsOpen, setDeleteShiftModalIsOpen] = useState(false);
+
+  const openDeleteShiftsModal = () => {
+    setDeleteShiftModalIsOpen(true);
+  };
+
+  const closeDeleteShiftsModal = () => {
+    setDeleteShiftModalIsOpen(false);
+  };
+
   const [shiftDay, setShiftDay] = useState("Monday");
 
   useEffect(() => {
@@ -113,6 +124,7 @@ const HomeScreen = () => {
             setRefreshShiftsByDay={setRefreshShiftsByDay}
             refreshShiftsByDay={refreshShiftsByDay}
             openEditShiftsModal={openEditShiftsModal}
+            openDeleteShiftsModal={openDeleteShiftsModal}
           />
         );
       case 2:
@@ -155,6 +167,13 @@ const HomeScreen = () => {
       <EditShiftModal
         editShiftModalIsOpen={editShiftModalIsOpen}
         closeEditShiftsModal={closeEditShiftsModal}
+        handleGlobalMessage={handleGlobalMessage}
+        setRefreshShiftsByDay={setRefreshShiftsByDay}
+      />
+
+      <DeleteShiftModal
+        deleteShiftModalIsOpen={deleteShiftModalIsOpen}
+        closeDeleteShiftsModal={closeDeleteShiftsModal}
         handleGlobalMessage={handleGlobalMessage}
         setRefreshShiftsByDay={setRefreshShiftsByDay}
       />

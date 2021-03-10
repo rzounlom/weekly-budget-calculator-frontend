@@ -12,7 +12,7 @@ import {
 } from "./HomeScreenComponents";
 import { setCurrentShift } from "../../redux/actions/shift/shiftActions";
 
-const ShiftCard = ({ shift, openEditShiftsModal }) => {
+const ShiftCard = ({ shift, openEditShiftsModal, openDeleteShiftsModal }) => {
   const dispatch = useDispatch();
   if (shift) {
     const { employeeId, firstName, lastName, position, rate } = shift.employee;
@@ -59,7 +59,13 @@ const ShiftCard = ({ shift, openEditShiftsModal }) => {
             >
               Edit
             </HomeScreenMainContentGridCardFooterBtn>
-            <HomeScreenMainContentGridCardFooterBtn className="card-footer-btn delete">
+            <HomeScreenMainContentGridCardFooterBtn
+              className="card-footer-btn delete"
+              onClick={() => {
+                dispatch(setCurrentShift(shift));
+                openDeleteShiftsModal();
+              }}
+            >
               Delete
             </HomeScreenMainContentGridCardFooterBtn>
           </HomeScreenMainContentGridCardFooterRow>
